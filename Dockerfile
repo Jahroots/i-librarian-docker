@@ -1,11 +1,13 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
+
+ARG VERSION
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 php libapache2-mod-php php-sqlite3 php-gd php-curl \
       php-xml php-intl php-json php-mbstring php-zip poppler-utils ghostscript tesseract-ocr libreoffice
 RUN apt-get install -y wget
 
 RUN mkdir /var/www/librarian
-RUN wget -c https://github.com/mkucej/i-librarian-free/releases/download/5.7.2/I-Librarian-5.7.2-Linux.tar.xz -O - | tar -Jxf - -C /var/www/librarian
+RUN wget -c https://github.com/mkucej/i-librarian-free/releases/download/${VERSION}/I-Librarian-${VERSION}-Linux.tar.xz -O - | tar -Jxf - -C /var/www/librarian
 RUN chown -R www-data:www-data /var/www/librarian
 
 COPY librarian.conf /etc/apache2/sites-enabled/000-default.conf
